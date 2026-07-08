@@ -9,7 +9,7 @@
 (() => {
   'use strict';
 
-  console.log('[pr-md-reviewer] v0.4.0 loaded');
+  console.log('[pr-md-reviewer] v0.4.1 loaded');
 
   const MD_EXTENSIONS = /\.(md|markdown|mdx)$/i;
   const BIDI_MARKS = /[‎‏‪-‮]/g;
@@ -96,11 +96,27 @@
     throw new Error('could not extract file content from blob page');
   }
 
-  function getHeadOid() {
-    for (const script of document.querySelectorAll('script[data-target="react-app.embeddedData"]')) {
-      const m = /"headOid":"([a-f0-9]{40})"/.exec(script.textContent);
-      if (m) return m[1];
-    }
+  // The PR's head commit. Never trust the embedded JSON in the current DOM —
+  // after GitHub's SPA navigation it belongs to a previously loaded page (it
+  // may be missing, or worse, be another PR's oid). Instead fetch this PR's
+  // files page fresh, once per PR.
+  let headOidCache = { key: null, oid: null };
+
+  async function getHeadOid(owner, repo) {
+    const prMatch = /^\/[^/]+\/[^/]+\/pull\/(\d+)/.exec(location.pathname);
+    if (!prMatch) return null;
+    const key = `${owner}/${repo}#${prMatch[1]}`;
+    if (headOidCache.key === key) return headOidCache.oid;
+    try {
+      const resp = await fetch(`/${owner}/${repo}/pull/${prMatch[1]}/files`, { credentials: 'include' });
+      if (!resp.ok) return null;
+      const html = await resp.text();
+      const m = /"headOid":"([a-f0-9]{40})"/.exec(html) || /"headRefOid":"([a-f0-9]{40})"/.exec(html);
+      if (m) {
+        headOidCache = { key, oid: m[1] };
+        return m[1];
+      }
+    } catch { /* fall through */ }
     return null;
   }
 
@@ -692,7 +708,7 @@
       if (btn) btn.textContent = 'Loading…';
       try {
         const [owner, repo] = location.pathname.split('/').slice(1, 3);
-        const oid = getHeadOid();
+        const oid = await getHeadOid(owner, repo);
         if (!oid) throw new Error('could not determine PR head commit');
         const text = await fetchFileText(owner, repo, oid, path);
         rendered = buildRenderedView(fileEl, path, text);

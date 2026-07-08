@@ -9,7 +9,7 @@
 (() => {
   'use strict';
 
-  console.log('[pr-md-reviewer] v0.4.1 loaded');
+  console.log('[pr-md-reviewer] v0.4.2 loaded');
 
   const MD_EXTENSIONS = /\.(md|markdown|mdx)$/i;
   const BIDI_MARKS = /[‎‏‪-‮]/g;
@@ -124,7 +124,10 @@
   // Diff DOM helpers
   // ---------------------------------------------------------------------------
 
-  const GRID_ID_RE = /^diff-[a-f0-9]{40,64}-(\d+)-(\d+)-\d+$/;
+  // Cell ids look like diff-<sha256(path)>-<oldLine>-<newLine>-<col>. For new
+  // files the old side is the literal string "empty" (and vice versa for
+  // deletions, which we skip by requiring a numeric new line).
+  const GRID_ID_RE = /^diff-[a-f0-9]{40,64}-(\d+|empty)-(\d+)-\d+$/;
 
   // Returns { added: Set<newLine>, visible: Set<newLine> } for one file container.
   function getLineSets(fileEl) {

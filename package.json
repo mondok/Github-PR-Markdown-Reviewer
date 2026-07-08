@@ -1,0 +1,15 @@
+{
+  "name": "pr_md_reviewer",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "markdown-it": "^14.3.0"
+  }
+}

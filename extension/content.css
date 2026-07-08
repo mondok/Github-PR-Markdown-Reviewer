@@ -1,0 +1,108 @@
+/* Toggle button in the file header */
+.pmr-toggle {
+  margin-left: 8px;
+  padding: 2px 10px;
+  font-size: 12px;
+  line-height: 18px;
+  border: 1px solid var(--borderColor-default, #d1d9e0);
+  border-radius: 6px;
+  background: var(--bgColor-default, #fff);
+  color: var(--fgColor-default, #1f2328);
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.pmr-toggle:hover {
+  background: var(--bgColor-muted, #f6f8fa);
+}
+.pmr-toggle[aria-pressed="true"] {
+  background: var(--bgColor-accent-muted, #ddf4ff);
+  border-color: var(--borderColor-accent-emphasis, #0969da);
+}
+
+/* When active, hide the source diff table and show the rendered doc */
+.pmr-active table.tab-size {
+  display: none !important;
+}
+.pmr-rendered {
+  display: none;
+  padding: 24px 32px;
+  border-top: 1px solid var(--borderColor-default, #d1d9e0);
+  max-width: 900px;
+}
+.pmr-active .pmr-rendered {
+  display: block;
+}
+
+.pmr-note {
+  font-size: 12px;
+  color: var(--fgColor-muted, #59636e);
+  background: var(--bgColor-muted, #f6f8fa);
+  border: 1px solid var(--borderColor-default, #d1d9e0);
+  border-radius: 6px;
+  padding: 6px 10px;
+  margin-bottom: 16px;
+}
+
+/* Changed blocks: green gutter bar, like an addition */
+.pmr-rendered .pmr-changed {
+  border-left: 4px solid var(--bgColor-success-emphasis, #1f883d);
+  background: var(--bgColor-success-muted, #dafbe1);
+  padding-left: 12px;
+  margin-left: -16px;
+  border-radius: 0 4px 4px 0;
+}
+
+/* Commentable blocks get a hover affordance */
+.pmr-rendered .pmr-commentable {
+  cursor: pointer;
+  position: relative;
+}
+.pmr-rendered .pmr-commentable:hover {
+  outline: 2px solid var(--borderColor-accent-emphasis, #0969da);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.pmr-rendered .pmr-commentable:hover::after {
+  content: "💬 comment";
+  position: absolute;
+  top: -22px;
+  right: 0;
+  font-size: 11px;
+  line-height: 1;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: var(--bgColor-emphasis, #25292e);
+  color: var(--fgColor-onEmphasis, #fff);
+  pointer-events: none;
+}
+
+/* Flash the diff row we scrolled to */
+.pmr-row-flash td {
+  animation: pmr-flash 2.5s ease-out;
+}
+@keyframes pmr-flash {
+  0%, 50% { background-color: var(--bgColor-attention-muted, #fff8c5); }
+  100% { background-color: transparent; }
+}
+
+/* Floating pill to return to the rendered view */
+.pmr-back-pill {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid var(--borderColor-accent-emphasis, #0969da);
+  border-radius: 999px;
+  background: var(--bgColor-accent-emphasis, #0969da);
+  color: var(--fgColor-onEmphasis, #fff);
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+.pmr-back-pill:hover {
+  filter: brightness(1.1);
+}

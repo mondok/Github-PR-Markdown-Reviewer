@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "GitHub PR Markdown Reviewer",
+  "version": "0.1.0",
+  "description": "Review markdown files in GitHub PRs as rendered markdown, with click-to-comment on changed sections.",
+  "content_scripts": [
+    {
+      "matches": ["https://github.com/*"],
+      "js": ["vendor/markdown-it.min.js", "content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}

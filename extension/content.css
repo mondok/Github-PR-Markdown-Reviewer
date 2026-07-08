@@ -24,11 +24,27 @@
 .pmr-active table.tab-size {
   display: none !important;
 }
+
+/* Priming: give the hidden table invisible-but-"visible" layout boxes so
+   GitHub's hover machinery mounts the "Add comment" button. Must be opacity
+   (not visibility:hidden) — GitHub skips hover UI on visibility-hidden cells. */
+.pmr-active table.tab-size.pmr-priming {
+  display: table !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
 .pmr-rendered {
   display: none;
   padding: 24px 32px;
   border-top: 1px solid var(--borderColor-default, #d1d9e0);
   max-width: 900px;
+  background: var(--bgColor-default, #fff);
 }
 .pmr-active .pmr-rendered {
   display: block;
@@ -77,32 +93,141 @@
   pointer-events: none;
 }
 
-/* Flash the diff row we scrolled to */
-.pmr-row-flash td {
-  animation: pmr-flash 2.5s ease-out;
+/* Inline comment box */
+.pmr-comment-box {
+  margin: 10px 0 18px;
+  border: 1px solid var(--borderColor-default, #d1d9e0);
+  border-radius: 8px;
+  background: var(--bgColor-default, #fff);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  cursor: auto;
 }
-@keyframes pmr-flash {
-  0%, 50% { background-color: var(--bgColor-attention-muted, #fff8c5); }
-  100% { background-color: transparent; }
+.pmr-box-head {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--fgColor-muted, #59636e);
+  padding: 6px 12px;
+  background: var(--bgColor-muted, #f6f8fa);
+  border-bottom: 1px solid var(--borderColor-default, #d1d9e0);
+}
+.pmr-comment-box textarea {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 110px;
+  padding: 10px 12px;
+  border: none;
+  outline: none;
+  resize: vertical;
+  font-size: 14px;
+  line-height: 1.5;
+  font-family: inherit;
+  background: transparent;
+  color: var(--fgColor-default, #1f2328);
+}
+.pmr-box-status {
+  font-size: 12px;
+  color: var(--fgColor-muted, #59636e);
+  padding: 4px 12px;
+}
+.pmr-box-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 8px 12px;
+  border-top: 1px solid var(--borderColor-default, #d1d9e0);
+  background: var(--bgColor-muted, #f6f8fa);
+}
+.pmr-box-submits {
+  display: flex;
+  gap: 8px;
+}
+.pmr-btn {
+  padding: 5px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
+  border: 1px solid var(--borderColor-default, #d1d9e0);
+  border-radius: 6px;
+  background: var(--bgColor-default, #fff);
+  color: var(--fgColor-default, #1f2328);
+  cursor: pointer;
+}
+.pmr-btn:hover:not(:disabled) {
+  background: var(--bgColor-muted, #f6f8fa);
+}
+.pmr-btn:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+.pmr-btn-primary {
+  background: var(--button-primary-bgColor-rest, #1f883d);
+  border-color: var(--button-primary-bgColor-rest, #1f883d);
+  color: #fff;
+}
+.pmr-btn-primary:hover:not(:disabled) {
+  background: var(--button-primary-bgColor-hover, #1a7f37);
 }
 
-/* Floating pill to return to the rendered view */
-.pmr-back-pill {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 999;
-  padding: 8px 16px;
-  font-size: 13px;
-  font-weight: 600;
-  border: 1px solid var(--borderColor-accent-emphasis, #0969da);
-  border-radius: 999px;
-  background: var(--bgColor-accent-emphasis, #0969da);
-  color: var(--fgColor-onEmphasis, #fff);
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+/* Badge on blocks you've commented on */
+.pmr-commented-badge {
+  margin-left: 6px;
+  font-size: 14px;
+  cursor: default;
 }
-.pmr-back-pill:hover {
-  filter: brightness(1.1);
+
+/* Inline review-thread cards */
+.pmr-thread-card {
+  margin: 10px 0 18px;
+  border: 1px solid var(--borderColor-default, #d1d9e0);
+  border-radius: 8px;
+  background: var(--bgColor-default, #fff);
+  overflow: hidden;
+  cursor: auto;
+}
+.pmr-thread-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--fgColor-muted, #59636e);
+  padding: 6px 12px;
+  background: var(--bgColor-muted, #f6f8fa);
+  border-bottom: 1px solid var(--borderColor-default, #d1d9e0);
+}
+.pmr-btn-small {
+  padding: 1px 8px;
+  font-size: 11px;
+}
+.pmr-thread-content {
+  padding: 8px 12px;
+}
+.pmr-thread-reply {
+  padding: 8px 12px;
+  border-top: 1px solid var(--borderColor-default, #d1d9e0);
+  background: var(--bgColor-muted, #f6f8fa);
+}
+.pmr-thread-reply textarea {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 80px;
+  padding: 8px 10px;
+  border: 1px solid var(--borderColor-default, #d1d9e0);
+  border-radius: 6px;
+  resize: vertical;
+  font-size: 14px;
+  line-height: 1.5;
+  font-family: inherit;
+  background: var(--bgColor-default, #fff);
+  color: var(--fgColor-default, #1f2328);
+}
+.pmr-thread-reply-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
 }

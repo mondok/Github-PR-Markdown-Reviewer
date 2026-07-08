@@ -10,6 +10,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@resvg/resvg-js": "^2.6.2",
     "markdown-it": "^14.3.0"
   }
 }

@@ -1,0 +1,16 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2da44e"/>
+      <stop offset="1" stop-color="#116329"/>
+    </linearGradient>
+  </defs>
+  <!-- rounded app tile -->
+  <rect x="4" y="4" width="120" height="120" rx="28" fill="url(#bg)"/>
+  <!-- review comment bubble -->
+  <path d="M24 34 h80 a10 10 0 0 1 10 10 v40 a10 10 0 0 1 -10 10 h-46 l-16 16 v-16 h-18 a10 10 0 0 1 -10 -10 v-40 a10 10 0 0 1 10 -10 z" fill="#ffffff"/>
+  <!-- markdown "M" -->
+  <path d="M32 78 V50 h10 l9 12 9 -12 h10 v28 h-10 V64 l-9 11 -9 -11 v14 z" fill="#24292f"/>
+  <!-- markdown down-arrow -->
+  <path d="M84 50 h10 v14 h8 l-13 16 -13 -16 h8 z" fill="#1f883d"/>
+</svg>

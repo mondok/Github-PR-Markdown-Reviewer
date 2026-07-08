@@ -1,5 +1,7 @@
 # GitHub PR Markdown Reviewer
 
+![Reviewing a PR's markdown as a rendered document, with an inline comment box open on a changed section](assets/screenshot.png)
+
 A Chrome extension for reviewing GitHub PRs that touch markdown files. GitHub's
 built-in "rich diff" shows rendered markdown but disables inline commenting —
 this extension gives you both: read the file as rendered markdown, click any

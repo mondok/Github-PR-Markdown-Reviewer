@@ -11,6 +11,10 @@ setup.
 Built against GitHub's **React-based "Files changed" page** (`/pull/<n>/changes`),
 which is what github.com serves as of mid-2026.
 
+New here? Start with the [getting started guide](docs/getting-started.md), or
+read the [architecture notes](docs/architecture.md) if you're curious how the
+comment bridge works under the hood.
+
 ## Install
 
 1. Open `chrome://extensions`
